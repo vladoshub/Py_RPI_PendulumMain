@@ -2,7 +2,7 @@ import subprocess
 from subprocess import Popen, PIPE
 
 global p
-global init=True
+global init
 
 caseOut={
   'N': 'N-Текущая координата',
@@ -12,43 +12,46 @@ caseOut={
 }
 
 def getDataCoordinate():
-        if(init):
-                p = subprocess.Popen(["CRead","Read.C"], stdout=PIPE, stdin=PIPE)               
-                init=False
-        int l = int(p.stdin.readline().strip())
+    try:
+        l = int(p.stdin.readline().strip())
         return l
-      
+    except:
+        raise Exception('error')
+        
+        
 def getDataSensor():
-        if(init):
-                p = subprocess.Popen(["CRead","Read.C"], stdout=PIPE, stdin=PIPE)               
-                init=False
-        int k = int(p.stdin.readline().strip())
+    try:
+        k = int(p.stdin.readline().strip())
         time = []
         coordinate = []
         while k > 0:
-             coordinate.append(int(p.stdin.readline().strip()))
-             time.append(float(p.stdin.readline().strip()))
-             k=k-1
+            coordinate.append(int(p.stdin.readline().strip()))
+            time.append(float(p.stdin.readline().strip()))
+            k=k-1
         return coordinate,time
+    except:
+        raise Exception('error')
         
- 
+def init():
+    p = subprocess.Popen(["CRead","Read.C"], stdout=PIPE, stdin=PIPE) 
+
+
 
 def checkSyntax(arg):
         if not (arg in caseOut):
-                raise Exception('not found operation')
+            raise Exception('not found operation')
           
  
 print('N,W,M,C')
 value=input()
 checkSyntax(value)
+init()
 time = []
 coordinate = [] 
-if(value='N'):
-         time,coordinate = getDataSensor()
-if(value='W'):
-         int k = getDataCoordinate()
-         print(k);
-
-
+if(value=='N'):
+        time,coordinate = getDataSensor()
+if(value=='W'):
+        k = getDataCoordinate()
+        print(k);
                  
                  

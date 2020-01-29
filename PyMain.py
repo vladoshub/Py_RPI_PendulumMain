@@ -18,7 +18,7 @@ coordinate = []
 while k > 0:
 coordinate.append(int(p.stdout.readline().strip()))
 p.stdout.flush()
-time.append(int(p.stdout.readline().strip()))
+time.append(float(p.stdout.readline().strip()))
 p.stdout.flush()
 k=k-1
 return coordinate,time

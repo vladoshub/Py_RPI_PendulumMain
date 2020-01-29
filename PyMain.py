@@ -11,11 +11,17 @@ caseOut={
   'C': '4-обнулить данные'
 }
 
-def getData(arg):
-  if arg=='N':
+def getDataCoordinate():
+        if(init):
+                p = subprocess.Popen(["CRead","Read.C"], stdout=PIPE, stdin=PIPE)               
+                init=False
         int l = int(p.stdin.readline().strip())
         return l
-  if arg=='M':
+      
+def getDataSensor():
+        if(init):
+                p = subprocess.Popen(["CRead","Read.C"], stdout=PIPE, stdin=PIPE)               
+                init=False
         int k = int(p.stdin.readline().strip())
         time = []
         coordinate = []
@@ -24,8 +30,6 @@ def getData(arg):
              time.append(float(p.stdin.readline().strip()))
              k=k-1
         return coordinate,time
-
-
         
  
 
@@ -33,30 +37,16 @@ def checkSyntax(arg):
         if not (arg in caseOut):
                 raise Exception('not found operation')
           
-          
-def main(arg):
-        checkSyntax(arg)
-        time = []
-        coordinate = []
-        if(init):
-                p = subprocess.Popen(["CRead","Read.C"], stdout=PIPE, stdin=PIPE)               
-                init=False
-         p.stdout.write(bytes(arg + '\n', 'UTF-8'))
-         if(arg='N'):
-                 time,coordinate = getData(arg)
-                 return time,coordinate
-         if(arg='W'):
-                 int k = getData(arg)
-                 return k
  
 print('N,W,M,C')
-value=input()      
+value=input()
+checkSyntax(value)
 time = []
 coordinate = [] 
 if(value='N'):
-         time,coordinate = main(value)
+         time,coordinate = getDataSensor()
 if(value='W'):
-         int k = main(value)
+         int k = getDataCoordinate()
          print(k);
 
 

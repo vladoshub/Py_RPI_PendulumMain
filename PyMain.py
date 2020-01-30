@@ -12,18 +12,18 @@ Ops={
   'S': 'S-изменить пороги чувствительнсои.1-MAX Отклонение от старта,2-MAX Отклонение от того на сколько маятник может отклоняться назад(вперед) при измерении'
 }
 
-def doChangeSensor(arg1,arg2):
+def doChangeSensor(arg1,arg2): 
     try:
-        p.stdin.write(bytes('S' + '\n', 'UTF-8'))
-        p.stdin.write(bytes(arg1 + '\n', 'UTF-8'))
-        p.stdin.write(bytes(arg2 + '\n', 'UTF-8'))
+        p.stdout.write(bytes('S' + '\n', 'UTF-8'))
+        p.stdout.write(bytes(arg1 + '\n', 'UTF-8'))
+        p.stdout.write(bytes(arg2 + '\n', 'UTF-8'))
     except:
         raise Exception('error')
 
 
 def doClear():
     try:
-        p.stdin.write(bytes('С' + '\n', 'UTF-8'))
+        p.stdout.write(bytes('С' + '\n', 'UTF-8'))
     except:
         raise Exception('error')
 
@@ -32,7 +32,7 @@ def doClear():
 
 def doMeasurement():
     try:
-        p.stdin.write(bytes('W' + '\n', 'UTF-8'))
+        p.stdout.write(bytes('W' + '\n', 'UTF-8'))
     except:
         raise Exception('error')
 
@@ -40,7 +40,7 @@ def doMeasurement():
 
 def getDataCoordinate():
     try:
-        p.stdin.write(bytes('N' + '\n', 'UTF-8'))
+        p.stdout.write(bytes('N' + '\n', 'UTF-8'))
         l = int(p.stdin.readline().strip())
         return l
     except:
@@ -49,7 +49,7 @@ def getDataCoordinate():
         
 def getDataArray():
     try:
-        p.stdin.write(bytes('M' + '\n', 'UTF-8'))
+        p.stdout.write(bytes('M' + '\n', 'UTF-8'))
         k = int(p.stdin.readline().strip())
         time = []
         coordinate = []
@@ -62,7 +62,8 @@ def getDataArray():
         raise Exception('error')
         
 def init():
-    p = subprocess.Popen(["CRead","Read.C"], stdout=PIPE, stdin=PIPE) 
+    p = subprocess.Popen(["/home/pi/C"], stdout=PIPE, stdin=PIPE)
+    init = True
 
 
 

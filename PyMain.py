@@ -14,16 +14,16 @@ Ops={
 
 def doChangeSensor(arg1,arg2): 
     try:
-        p.stdout.write(bytes('S' + '\n', 'UTF-8'))
-        p.stdout.write(bytes(arg1 + '\n', 'UTF-8'))
-        p.stdout.write(bytes(arg2 + '\n', 'UTF-8'))
+        p.stdin.write(bytes('S' + '\n', 'UTF-8'))
+        p.stdin.write(bytes(arg1 + '\n', 'UTF-8'))
+        p.stdin.write(bytes(arg2 + '\n', 'UTF-8'))
     except:
         raise Exception('error')
 
 
 def doClear():
     try:
-        p.stdout.write(bytes('С' + '\n', 'UTF-8'))
+        p.stdin.write(bytes('С' + '\n', 'UTF-8'))
     except:
         raise Exception('error')
 
@@ -32,7 +32,7 @@ def doClear():
 
 def doMeasurement():
     try:
-        p.stdout.write(bytes('W' + '\n', 'UTF-8'))
+        p.stdin.write(bytes('W' + '\n', 'UTF-8'))
     except:
         raise Exception('error')
 
@@ -40,8 +40,8 @@ def doMeasurement():
 
 def getDataCoordinate():
     try:
-        p.stdout.write(bytes('N' + '\n', 'UTF-8'))
-        l = int(p.stdin.readline().strip())
+        p.stdint.write(bytes('N' + '\n', 'UTF-8'))
+        l = int(p.stdout.readline().strip())
         return l
     except:
         raise Exception('error')
@@ -49,13 +49,13 @@ def getDataCoordinate():
         
 def getDataArray():
     try:
-        p.stdout.write(bytes('M' + '\n', 'UTF-8'))
-        k = int(p.stdin.readline().strip())
+        p.stdin.write(bytes('M' + '\n', 'UTF-8'))
+        k = int(p.stdout.readline().strip())
         time = []
         coordinate = []
         while k > 0:
-            coordinate.append(int(p.stdin.readline().strip()))
-            time.append(float(p.stdin.readline().strip()))
+            coordinate.append(int(p.stdout.readline().strip()))
+            time.append(float(p.stdout.readline().strip()))
             k=k-1
         return coordinate,time
     except:

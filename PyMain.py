@@ -1,15 +1,15 @@
 import subprocess
 from subprocess import Popen, PIPE
 
-global p 
+global p
 global init 
 
 Ops={
-  'N': 'N-Текущая координата',
-  'W': 'W-Сделать измерение маха',
-  'M': 'M-получить измерение маха',
-  'C': 'C-обнулить данные'
-  'S': 'S-изменить пороги чувствительнсои.1-MAX Отклонение от старта,2-MAX Отклонение от того на сколько маятник может отклоняться назад(вперед) при измерении'
+  'N': 'N',
+  'W': 'W',
+  'M': 'M',
+  'C': 'C',
+  'S': 'S'
 }
 
 def doChangeSensor(arg1,arg2): 
@@ -23,7 +23,7 @@ def doChangeSensor(arg1,arg2):
 
 def doClear():
     try:
-        p.stdin.write(bytes('С' + '\n', 'UTF-8'))
+        p.stdin.write(bytes('C' + '\n', 'UTF-8'))
     except:
         raise Exception('error')
 
@@ -40,7 +40,7 @@ def doMeasurement():
 
 def getDataCoordinate():
     try:
-        p.stdint.write(bytes('N' + '\n', 'UTF-8'))
+        p.stdin.write(bytes('N' + '\n', 'UTF-8'))
         l = int(p.stdout.readline().strip())
         return l
     except:
@@ -61,9 +61,7 @@ def getDataArray():
     except:
         raise Exception('error')
         
-def init():
-    p = subprocess.Popen(["/home/pi/C"], stdout=PIPE, stdin=PIPE)
-    init = True
+
 
 
 
@@ -71,17 +69,14 @@ def checkSyntax(arg):
         if not (arg in Ops):
             raise Exception('not found operation')
           
- 
+p = subprocess.Popen(["/home/pi/Pendulum/module"], shell=True,stdout=PIPE, stdin=PIPE)
 print('N,W,M,C')
 value=input()
-checkSyntax(value)
-init()
 time = []
 coordinate = [] 
 if(value=='N'):
-        time,coordinate = getDataSensor()
+        time,coordinate = getDataCoordinate()
 if(value=='W'):
-        k = getDataCoordinate()
+        k = getDataArray()
         print(k);
-                 
                  

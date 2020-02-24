@@ -42,6 +42,14 @@ def doMeasurement(): #start Measurement(Запустить режим ожида
         raise Exception('error')
 
 
+def getStatus(): #get status driver(получает текущий режим работы драйвера)
+    try:
+        p.stdin.write(bytes('T\n', 'UTF-8'))
+        p.stdin.flush()
+        return p.stdout.readline().strip().decode()
+    except:
+        raise Exception('error')
+        
 
 def getDataCoordinate():#current position(возвращает текущее положение маятника)
     try:
@@ -87,5 +95,5 @@ def init():#start driver(запускает драйвер который опр
 #init()
 #time = []
 #coordinate = [] 
-#doMeasurement() 
-#        time,coordinate = getDataCoordinate()                
+#doMeasurement()
+#time,coordinate = getDataCoordinate()                

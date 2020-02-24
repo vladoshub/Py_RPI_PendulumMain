@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 global p
 global init 
 
-Ops={
+Ops={ #protol(протокол для общения с датчиком)
   'N': 'N',
   'W': 'W',
   'M': 'M',
@@ -12,50 +12,57 @@ Ops={
   'S': 'S'
 }
 
-def doChangeSensor(arg1,arg2): 
+def doChangeSensor(arg1,arg2): #overwrite sensitivity threshold(перезаписывает порог чувствительности)
     try:
-        p.stdin.write(bytes('S' + '\n', 'UTF-8'))
+        p.stdin.write(bytes('S\n', 'UTF-8'))
+        p.stdin.flush()
         p.stdin.write(bytes(arg1 + '\n', 'UTF-8'))
+        p.stdin.flush()
         p.stdin.write(bytes(arg2 + '\n', 'UTF-8'))
+        p.stdin.flush()
     except:
         raise Exception('error')
 
 
-def doClear():
+def doClear(): #claer all safe data(очищает все измерения сделанные датчиким)
     try:
-        p.stdin.write(bytes('C' + '\n', 'UTF-8'))
+        p.stdin.write(bytes('C\n', 'UTF-8'))
+        p.stdin.flush()
     except:
         raise Exception('error')
 
 
 
 
-def doMeasurement():
+def doMeasurement(): #start Measurement(Запустить режим ожидания старта маятника и записи маха)
     try:
-        p.stdin.write(bytes('W' + '\n', 'UTF-8'))
+        p.stdin.write(bytes('W\n', 'UTF-8'))
+        p.stdin.flush()
     except:
         raise Exception('error')
 
 
 
-def getDataCoordinate():
+def getDataCoordinate():#current position(возвращает текущее положение маятника)
     try:
         p.stdin.write(bytes('N' + '\n', 'UTF-8'))
-        l = int(p.stdout.readline().strip())
+        p.stdin.flush()
+        l = int(p.stdout.readline().strip().decode())
         return l
     except:
         raise Exception('error')
         
         
-def getDataArray():
+def getDataArray():#get received data-time and coordinate(возвращает собранные данные в виде 2х массивов-время и коррдинату)
     try:
-        p.stdin.write(bytes('M' + '\n', 'UTF-8'))
-        k = int(p.stdout.readline().strip())
+        p.stdin.write(bytes('M\n', 'UTF-8'))
+        p.stdin.flush()
+        k = int(p.stdout.readline().strip().decode())
         time = []
         coordinate = []
         while k > 0:
-            coordinate.append(int(p.stdout.readline().strip()))
-            time.append(float(p.stdout.readline().strip()))
+            coordinate.append(int(p.stdout.readline().strip().decode()))
+            time.append(float(p.stdout.readline().strip().decode()))
             k=k-1
         return coordinate,time
     except:
@@ -68,9 +75,15 @@ def getDataArray():
 def checkSyntax(arg):
         if not (arg in Ops):
             raise Exception('not found operation')
+        
+        
+def init():#start driver(запускает драйвер который опрашивает датчик.без этого ничего работать не будет)
+    try:
+        p = subprocess.Popen(["/home/pi/Pendulum/module"], stdout=PIPE, stdin=PIPE)
+    except:
+        raise Exception('error')
           
-p = subprocess.Popen(["/home/pi/Pendulum/module"], shell=True,stdout=PIPE, stdin=PIPE)
-print('N,W,M,C')
+init();
 value=input()
 time = []
 coordinate = [] 

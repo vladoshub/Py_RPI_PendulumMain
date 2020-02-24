@@ -82,14 +82,10 @@ def init():#start driver(запускает драйвер который опр
         p = subprocess.Popen(["/home/pi/Pendulum/module"], stdout=PIPE, stdin=PIPE)
     except:
         raise Exception('error')
-          
-init();
-value=input()
-time = []
-coordinate = [] 
-if(value=='N'):
-        time,coordinate = getDataCoordinate()
-if(value=='W'):
-        k = getDataArray()
-        print(k);
-                 
+        
+#example  
+#init()
+#time = []
+#coordinate = [] 
+#doMeasurement() 
+#        time,coordinate = getDataCoordinate()                

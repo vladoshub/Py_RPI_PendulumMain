@@ -5,11 +5,13 @@ global p
 global init 
 
 Ops={ #protol(протокол для общения с датчиком)
-  'N': 'N',
-  'W': 'W',
-  'M': 'M',
-  'C': 'C',
-  'S': 'S'
+  'N': 'N', #current coordinate
+  'W': 'W', #start Measurement
+  'M': 'M', #start Measurement
+  'C': 'C', #claer all safe data
+  'S': 'S', #overwrite sensitivity threshold
+  'E': 'E', #stop driver
+  'T': 'T'  #get status driver
 }
 
 def doChangeSensor(arg1,arg2): #overwrite sensitivity threshold(перезаписывает порог чувствительности)

@@ -91,9 +91,19 @@ def init():#start driver(запускает драйвер который опр
     except:
         raise Exception('error')
         
+        
+def stop():#stop driver(останавливает драйвер)
+    try:
+        p.stdin.write(bytes('E\n', 'UTF-8'))
+        p.stdin.flush()
+    except:
+        raise Exception('error')
+        
 #example  
 #init()
 #time = []
 #coordinate = [] 
 #doMeasurement()
-#time,coordinate = getDataCoordinate()                
+#status=getStatus()
+#time,coordinate = getDataCoordinate()
+#stop()

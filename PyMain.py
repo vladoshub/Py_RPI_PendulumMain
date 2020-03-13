@@ -48,7 +48,9 @@ def getStatus(): #get status driver(получает текущий режим �
     try:
         p.stdin.write(bytes('T\n', 'UTF-8'))
         p.stdin.flush()
-        return p.stdout.readline().strip().decode()
+        statusWork= p.stdout.readline().strip().decode()
+        statusLastWork= p.stdout.readline().strip().decode()
+        return statusWork,statusLastWork
     except:
         raise Exception('error')
         

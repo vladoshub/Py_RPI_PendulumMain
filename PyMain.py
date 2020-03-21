@@ -92,8 +92,9 @@ def checkSyntax(arg):
 def init():#start driver(запускает драйвер который опрашивает датчик.без этого ничего работать не будет)
     try:
         p = subprocess.Popen(["/home/pi/Pendulum/module"], stdout=PIPE, stdin=PIPE)
+        return True
     except:
-        raise Exception('error')
+        return False
         
         
 def stop():#stop driver(останавливает драйвер)

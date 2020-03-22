@@ -111,3 +111,4 @@ def stop():  # stop driver(останавливает драйвер)
         p.stdin.flush()
     except:
         raise Exception('error')
+        

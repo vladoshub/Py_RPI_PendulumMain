@@ -1,8 +1,9 @@
-import subprocess,measurement
+import subprocess
 from subprocess import Popen, PIPE
+import measurement
 
-global p
-global init
+
+
 
 Ops = {  # protol(протокол для общения с датчиком)
     'N': 'N',  # current coordinate
@@ -39,7 +40,7 @@ def doMeasurement():  # start Measurement(Запустить режим ожид
     try:
         p.stdin.write(bytes('W\n', 'UTF-8'))
         p.stdin.flush()
-        status = p.stdin.readline().strip().decode()
+        status = p.stdout.readline().strip().decode()
         return status
     except:
         raise Exception('error')
@@ -70,18 +71,18 @@ def getDataArray():  # get received data-time and coordinate(возвращае�
     try:
         p.stdin.write(bytes('M\n', 'UTF-8'))
         p.stdin.flush()
-        status = p.stdin.readline().strip().decode()
+        status = p.stdout.readline().strip().decode()
         meas = measurement.measurement()
         meas.set_Status(status)
-        k = int(p.stdin.readline().strip().decode())
+        k = int(p.stdout.readline().strip().decode())
         meas.set_Count(k)
         if (status == 'I' and k > 0):
             meas.set_Count(k)
             time = []
             coordinate = []
             while k > 0:
-                time.append(float(p.stdin.readline().strip().decode()))
-                coordinate.append(int(p.stdin.readline().strip().decode()))
+                time.append(float(p.stdout.readline().strip().decode()))
+                coordinate.append(int(p.stdout.readline().strip().decode()))
                 k = k - 1
             meas.set_Time(time)
             meas.set_Coordinate(coordinate)
@@ -99,7 +100,8 @@ def checkSyntax(arg):
 
 def init():  # start driver(запускает драйвер который опрашивает датчик.без этого ничего работать не будет)
     try:
-        p = subprocess.Popen(["/home/pi/Pendulum/module"], stdout=PIPE, stdin=PIPE)
+        global p
+        p = subprocess.Popen(["sudo","/home/pi/Pendulum/module"], stdout=PIPE, stdin=PIPE)
         return True
     except:
         return False
@@ -111,4 +113,3 @@ def stop():  # stop driver(останавливает драйвер)
         p.stdin.flush()
     except:
         raise Exception('error')
-        

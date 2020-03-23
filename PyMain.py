@@ -75,6 +75,7 @@ def getDataArray():  # get received data-time and coordinate(возвращае�
         meas = measurement.measurement()
         meas.set_Status(status)
         k = int(p.stdout.readline().strip().decode())
+        k=k-1
         meas.set_Count(k)
         if (status == 'I' and k > 0):
             meas.set_Count(k)
